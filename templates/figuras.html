@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% block contenido %}
+{% import "_macros.html" as macros %}
+
+<h1>Figuras Geométricas</h1>
+<div class="container">
+   <div class="row">
+      <div class="col">
+         <form action="/figuras" method="post">
+            <div class="mb-3">
+               {{ macros.campo2('figura', 'rectangulo') }}
+               {{ macros.campo2('figura', 'triangulo') }}
+               {{ macros.campo2('figura', 'circulo') }}
+               {{ macros.campo2('figura', 'pentagono') }}
+            </div>
+
+            <div class="mb-3">
+               {{ macros.campo1('base','Base','number') }}
+               {{ macros.campo1('altura','Altura o Apotema','number') }}
+               {{ macros.campo1('radio','Radio','number') }}
+               {{ macros.campo1('lado','Lado','number') }}
+
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Calcular área</button>
+         </form>
+      </div>
+   </div>
+</div>
+
+   <div class="alert alert-success">
+      {% if area %}
+      <h3>El área del {{ figura }} es: {{ area }}</h3>
+      {% endif %}
+   </div>
+
+
+{% endblock %}

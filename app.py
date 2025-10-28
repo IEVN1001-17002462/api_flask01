@@ -34,6 +34,30 @@ def distancia():
         return render_template("distancia.html", distancia=distancia)
     return render_template("distancia.html")
 
+@app.route('/figuras', methods=['GET', 'POST'])
+def figuras():
+    area = None
+    figura = None
+    diametro = None
+
+    if request.method == 'POST':
+        figura = request.form['figura']
+        base = request.form.get('base', type=float)
+        altura = request.form.get('altura', type=float)
+        radio = request.form.get('radio', type=float)
+        lado = request.form.get('lado', type=float)
+
+        if figura == 'rectangulo' and base and altura:
+            area = base * altura
+        elif figura == 'triangulo' and base and altura:
+            area = (base * altura) / 2
+        elif figura == 'circulo' and radio:
+            area = math.pi * (radio**2)
+        elif figura == 'pentagono' and lado and altura:
+            diametro = 5 * lado
+            area = (diametro * altura) / 2
+
+    return render_template('figuras.html', area=area, figura=figura)
 
 
 @app.route("/hola")

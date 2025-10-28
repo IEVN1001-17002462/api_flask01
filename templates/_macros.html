@@ -1,0 +1,31 @@
+
+{% macro campo1(
+    name, 
+    placeholder, 
+    type='text', 
+    value=''
+    ) %}
+  <div class="mb-3">
+    <label for="{{ name }}" class="form-label">{{ name }}:</label>
+    <input class="form-control" 
+      type="{{ type }}" 
+      id="{{ name }}" 
+      name="{{ name }}" 
+      placeholder="{{ placeholder }}" 
+      value="{{ value }}"
+    >
+  </div>
+{% endmacro %}
+
+{% macro campo2(
+    name, 
+    value='',
+    type='radio' 
+    ) %}
+    <div class="mb-3">
+        <label><input type="{{ type }}" name="{{ name }}" value="{{ value }}" required> {{ value }}</label><br>
+    </div>
+    
+
+{% endmacro %}
+
