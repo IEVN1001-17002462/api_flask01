@@ -1,0 +1,99 @@
+{% extends "layout.html" %}
+{% block contenido %}
+{% import "_macros.html" as macros %}
+
+<div class="container mt-4">
+  <h1>Pedido de Pizzas</h1>
+
+  <div class="row">
+    
+    <div class="col-md-6">
+      <form action="/pizzas" method="post" novalidate>
+        {{ macros.render_field(form.nombreP) }}
+        {{ macros.render_field(form.direccionP) }}
+        {{ macros.render_field(form.telefonoP) }}
+        {{ macros.render_field(form.numPizzasP) }}
+
+        <label class="mt-2">{{ form.tamP.label }}</label><br>
+        {% for choice in form.tamP %}
+          <div class="form-check">
+            {{ choice(class="form-check-input") }}
+            {{ choice.label(class="form-check-label") }}
+          </div>
+        {% endfor %}
+
+        <label class="mt-2">{{ form.ingP.label }}</label><br>
+        {% for choice in form.ingP %}
+          <div class="form-check">
+            {{ choice(class="form-check-input") }}
+            {{ choice.label(class="form-check-label") }}
+          </div>
+        {% endfor %}
+
+        <button type="submit" name="btnAgregar" value="agregar" class="btn btn-success mt-3">Agregar pizza</button>
+        <button type="submit" name="btnElimina" value="eliminar" class="btn btn-danger mt-3">Eliminar todo</button>
+        <button type="submit" name="btnTerminar" value="terminar" class="btn btn-primary mt-3">Terminar pedido</button>
+
+      </form>
+    </div>
+
+    <div class="col-md-6">
+      {% if pedidos %}
+      <h4 class="mt-4">Detalle de pedido</h4>
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>Tamaño</th>
+            <th>Ingredientes</th>
+            <th>Cantidad</th>
+            <th>Subtotal</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in pedidos %}
+          <tr>
+            <td>{{ p.tamano }}</td>
+            <td>{{ p.ingredientes }}</td>
+            <td>{{ p.cantidad }}</td>
+            <td>${{ p.subtotal }}</td>
+            <td>
+              <form method="post" action="/pizzas">
+                <input type="hidden" name="index" value="{{ loop.index0 }}">
+                <button type="submit" name="btnQuitar" value="quitar" class="btn btn-danger btn-sm">Quitar</button>
+              </form>
+
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% endif %}
+
+      {% if total %}
+      <h3 class="text-success mt-3">Total a pagar: ${{ total }}</h3>
+      {% endif %}
+
+      {% if mensaje %}
+      <div class="alert alert-info mt-3">{{ mensaje }}</div>
+      {% endif %}
+
+      {% if ventas %}
+<div class="mt-4 p-3 border rounded" style="background-color: #e9ecef;">
+    <legend>Ventas del día</legend>
+
+    {% for v in ventas %}
+        <p><strong>{{ v.nombre }}</strong> &nbsp;&nbsp; total: ${{ v.total }}</p>
+    {% endfor %}
+
+    <hr>
+    <p><strong>Ventas totales del día:</strong> ${{ total_dia }}</p>
+</div>
+{% endif %}
+
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}
